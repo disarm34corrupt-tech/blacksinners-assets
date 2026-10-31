@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black Sinners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: one narrow charcoal slab, centred over a fixed gothic arch, carrd-style; one page shown at a time */
+  --ink:#f3f1ee;
+  --muted:#aaa49d;
+  --slab:#1c1c1c;
+  --pill:#590100;
+  --blood:#b01c1c;
+  --rule:#e9e6e1;
+  --display:"Cinzel Decorative","Cinzel",Georgia,"Times New Roman",serif;
+  --caps:"Cinzel",Georgia,"Times New Roman",serif;
+  --body:"Noto Serif",Georgia,"Times New Roman",serif;
+  --w:31rem;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:#0c0c0c;color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.3;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--blood);outline-offset:3px}
+
+.bg{position:fixed;inset:0;z-index:-1;background:#0c0c0c url("img/bg.jpg") center 18%/cover no-repeat}
+.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(0,0,0,.35),transparent 70%)}
+.banner{width:100%;display:block}
+
+main{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(3rem,14vh,9rem) 16px 5rem;gap:1.6rem}
+
+/* ---------- entrance gate: stained-glass window that swings open ---------- */
+body.gated{overflow:hidden}
+body.gated .music{display:none}
+.gate{position:fixed;inset:0;z-index:50;overflow:hidden;background-color:#050505;transition:background-color 1.2s ease .9s}
+.gate-fill{position:absolute;inset:-60px;background:url("img/gate.jpg") center/cover;filter:blur(30px) brightness(.3) saturate(1.2)}
+.window{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);aspect-ratio:1030/1581;height:100%;perspective:1600px;animation:moonlight 11s ease-in-out infinite}
+.door{position:absolute;top:0;bottom:0;background-image:url("img/gate.jpg");background-repeat:no-repeat;backface-visibility:hidden}
+.door.l{left:0;width:48.9%;background-size:204.5% 100%;background-position:left center;transform-origin:left center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%);mask-image:linear-gradient(90deg,transparent,#000 7%)}
+.door.r{right:0;width:51.1%;background-size:195.7% 100%;background-position:right center;transform-origin:right center;-webkit-mask-image:linear-gradient(270deg,transparent,#000 7%);mask-image:linear-gradient(270deg,transparent,#000 7%)}
+@keyframes moonlight{0%,100%{filter:brightness(.8)}45%{filter:brightness(.95)}86%{filter:brightness(.84)}88%{filter:brightness(1.4)}89%{filter:brightness(.88)}90.5%{filter:brightness(1.22)}92.5%{filter:brightness(.84)}}
+.fog{position:absolute;left:-25%;right:-25%;bottom:-6%;height:50%;pointer-events:none;background:radial-gradient(ellipse 38% 55% at 28% 72%,rgba(205,205,225,.13),transparent 70%),radial-gradient(ellipse 34% 48% at 72% 82%,rgba(190,190,210,.1),transparent 70%),radial-gradient(ellipse 30% 40% at 50% 95%,rgba(176,28,28,.12),transparent 70%);filter:blur(8px);animation:drift 24s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateX(-7%)}to{transform:translateX(7%)}}
+#petals{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.gate-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(0,0,0,.93) 0%,rgba(0,0,0,.78) 26%,rgba(0,0,0,.18) 54%,transparent 68%),radial-gradient(ellipse at 50% 42%,transparent 45%,rgba(0,0,0,.65) 100%)}
+.burst{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 42%,rgba(255,236,226,.95),rgba(176,28,28,.4) 22%,transparent 52%)}
+.gate-text{position:absolute;left:0;right:0;bottom:clamp(1.8rem,7vh,4.5rem);padding:0 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.7rem}
+.gate-eyebrow{font-family:var(--caps);font-weight:600;font-size:.74rem;letter-spacing:.32em;color:#cfc8c1;text-shadow:0 2px 8px #000}
+.gate-title{font-family:var(--display);font-weight:900;font-size:clamp(2.7rem,10vw,4.7rem);line-height:.88;letter-spacing:-.005em;text-shadow:0 4px 26px rgba(0,0,0,.95),0 0 4px rgba(0,0,0,.8)}
+.gate-title span{display:inline-block;animation:emerge 1.5s cubic-bezier(.2,.7,.2,1) both}
+.gate-title span:nth-child(2){animation-delay:.25s}
+.gate-title span:nth-child(4){animation-delay:.45s}
+.gate-title span:nth-child(5){animation-delay:.65s}
+.gate-title .r{animation:emerge 1.5s cubic-bezier(.2,.7,.2,1) both,candle 3.4s ease-in-out 1.6s infinite}
+.gate-title span:nth-child(2).r{animation-delay:.25s,1.85s}
+.gate-title span:nth-child(4).r{animation-delay:.45s,2.05s}
+@keyframes emerge{from{opacity:.12;filter:blur(10px);transform:translateY(8px)}to{opacity:1;filter:none;transform:none}}
+@keyframes candle{0%,100%{text-shadow:0 4px 26px rgba(0,0,0,.95),0 0 14px rgba(176,28,28,.35)}40%{text-shadow:0 4px 26px rgba(0,0,0,.95),0 0 26px rgba(214,40,40,.7)}55%{text-shadow:0 4px 26px rgba(0,0,0,.95),0 0 18px rgba(176,28,28,.45)}}
+.gate-q{font-style:italic;font-size:1.18rem;color:#ece6e0;text-shadow:0 2px 10px #000;animation:emerge 1.4s ease .9s both}
+.gate-btn{margin-top:.5rem;font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.3em;padding:.85rem 2.3rem .85rem 2.6rem;color:var(--ink);background:rgba(25,0,0,.55);border:1px solid rgba(233,230,225,.75);cursor:pointer;animation:emerge 1.4s ease 1.2s both,glow 2.8s ease-in-out 2.6s infinite;transition:background .3s,border-color .3s}
+.gate-btn:hover{background:var(--pill);border-color:var(--blood)}
+.gate-btn:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+@keyframes glow{0%,100%{box-shadow:0 0 0 rgba(176,28,28,0)}50%{box-shadow:0 0 30px rgba(176,28,28,.6),inset 0 0 14px rgba(176,28,28,.35)}}
+.gate-hint{font-family:var(--caps);font-size:.68rem;letter-spacing:.22em;color:#a29b94;animation:emerge 1.4s ease 1.4s both}
+/* opening sequence */
+.gate.opening{background-color:transparent}
+.gate.opening .gate-text{opacity:0;transform:translateY(12px);transition:opacity .45s ease,transform .45s ease}
+.gate.opening .door.l{transform:rotateY(-98deg);opacity:0;transition:transform 1.8s cubic-bezier(.6,0,.25,1) .3s,opacity .7s ease 1.45s}
+.gate.opening .door.r{transform:rotateY(98deg);opacity:0;transition:transform 1.8s cubic-bezier(.6,0,.25,1) .3s,opacity .7s ease 1.45s}
+.gate.opening .window{animation:none}
+.gate.opening .gate-fill,.gate.opening .gate-shade,.gate.opening .fog,.gate.opening #petals{opacity:0;transition:opacity 1.3s ease .55s}
+.gate.opening .burst{animation:burst 1.7s ease-out .2s}
+@keyframes burst{0%{opacity:0;transform:scale(.6)}30%{opacity:.85}100%{opacity:0;transform:scale(1.7)}}
+@media (prefers-reduced-motion:reduce){
+  .window,.fog,.gate-title span,.gate-title .r,.gate-q,.gate-btn,.gate-hint{animation:none}
+  .gate.opening .door.l,.gate.opening .door.r{transform:none;transition:opacity .6s ease}
+  .gate.opening .burst{animation:none}
+}
+
+/* ---------- fog on the game page ---------- */
+.mist{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:0;transition:opacity 1.8s ease;-webkit-mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.75) 45%,rgba(0,0,0,.4) 100%);mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.75) 45%,rgba(0,0,0,.4) 100%)}
+.mist i{position:absolute;top:0;bottom:0;left:0;background:url("img/fog.jpg") repeat;mix-blend-mode:screen;will-change:transform}
+.mist i:nth-child(1){width:calc(100% + 1600px);background-size:1600px 800px;opacity:.5;animation:fog-l 80s linear infinite}
+.mist i:nth-child(2){width:calc(100% + 1000px);background-size:1000px 500px;background-position:0 230px;opacity:.38;animation:fog-r 52s linear infinite}
+@keyframes fog-l{from{transform:translate3d(0,0,0)}to{transform:translate3d(-1600px,0,0)}}
+@keyframes fog-r{from{transform:translate3d(-1000px,0,0)}to{transform:translate3d(0,0,0)}}
+.mist.front{z-index:5;-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(50% - 24rem),transparent calc(50% - 15rem),transparent calc(50% + 15rem),#000 calc(50% + 24rem));mask-image:linear-gradient(90deg,#000 0,#000 calc(50% - 24rem),transparent calc(50% - 15rem),transparent calc(50% + 15rem),#000 calc(50% + 24rem))}
+.mist.front i{width:calc(100% + 1300px);background-size:1300px 650px;background-position:0 400px;opacity:.3;animation:fog-l 60s linear infinite}
+body[data-page="game"] .mist{opacity:1}
+@media (max-width:760px){.mist.front{display:none}}
+body[data-page="game"] #game .slab{background:rgba(28,28,28,.86)}
+body[data-page="game"] #game .tabs{background:rgba(28,28,28,.95)}
+.fogged{position:relative;overflow:hidden}
+.fogged::after{content:"";position:absolute;top:0;bottom:0;left:0;width:calc(100% + 1000px);background:url("img/fog.jpg") 0 120px/1000px 500px repeat;mix-blend-mode:screen;opacity:.5;animation:fog-l 40s linear infinite;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.mist i,.fogged::after{animation:none}}
+
+.gate-btn:active{transform:scale(.96)}
+.gate.opening .gate-btn{background:var(--blood);border-color:#ff6b5a;box-shadow:0 0 40px rgba(255,70,60,.75)}
+
+/* backsound toggle */
+.music{position:fixed;right:16px;bottom:16px;z-index:10;display:flex;align-items:center;gap:.55rem;background:var(--pill);color:var(--ink);border:1px solid rgba(255,255,255,.14);border-radius:2rem;padding:.55rem .95rem;font-family:var(--display);font-weight:700;font-size:.76rem;letter-spacing:.06em;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.55)}
+.music:hover{background:#7a0402}
+.music:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.eq{display:flex;align-items:flex-end;gap:2px;height:14px}
+.eq i{width:3px;height:4px;background:currentColor;border-radius:1px}
+.music.playing .eq i{animation:eq 1s ease-in-out infinite}
+.music.playing .eq i:nth-child(2){animation-delay:-.4s}
+.music.playing .eq i:nth-child(3){animation-delay:-.7s}
+@keyframes eq{0%,100%{height:4px}50%{height:14px}}
+@media (prefers-reduced-motion:reduce){.music.playing .eq i{animation:none;height:12px}}
+.page{display:none;width:min(var(--w),100%);flex-direction:column;gap:1.6rem}
+.page.on{display:flex;animation:rise .55s ease-out}
+@keyframes rise{from{opacity:.15;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.page.on{animation:none}}
+
+/* nav pill */
+.nav{background:var(--pill);border-radius:3rem;padding:.8rem 1.1rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem 1.25rem;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.nav a{font-family:var(--display);font-weight:700;font-size:1.02rem;letter-spacing:.01em;text-decoration:none;white-space:nowrap;padding:.15rem 0}
+.nav a:hover,.nav a[aria-current="page"]{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
+
+.slab{background:var(--slab);padding:1.5rem;display:flex;flex-direction:column;gap:1.2rem;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.display{font-family:var(--display);font-weight:700;line-height:.86;margin:0;letter-spacing:-.005em;text-wrap:balance}
+.r{color:var(--blood)}
+.it{font-style:italic}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:.95rem;margin:0;letter-spacing:.02em}
+p{margin:0}
+.prose{display:flex;flex-direction:column;gap:1.05em}
+.just{text-align:justify;hyphens:auto}
+.muted{color:var(--muted)}
+h3{font-family:var(--display);font-weight:700;font-size:1.35rem;line-height:1;margin:0;display:flex;align-items:baseline;gap:.6rem}
+h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233,230,225,.5),transparent)}
+
+.foot{align-self:flex-start;font-family:var(--caps);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-decoration:none;background:rgba(40,40,40,.85);color:#cfcac4;padding:.45rem .95rem;border-radius:2rem}
+.foot:hover{color:var(--ink)}
+
+/* ---------- home ---------- */
+.home-top{display:grid;grid-template-columns:1fr 9.5rem;gap:.4rem;align-items:center}
+.home-top .display{font-size:clamp(2.6rem,10vw,3.65rem);margin-bottom:.35rem}
+.home-top p{text-align:justify;hyphens:auto;font-size:.95rem;line-height:1.18}
+.angel{width:100%;margin-top:-1rem}
+.home-grid{display:grid;grid-template-columns:8rem 1fr;gap:1rem;align-items:end}
+.emblem{display:flex;flex-direction:column;align-items:center;gap:.45rem;text-decoration:none}
+.emblem img{width:100%;clip-path:circle(48.5%);transition:transform .4s ease}
+.emblem:hover img{transform:rotate(-12deg)}
+.emblem span{font-family:var(--display);font-weight:700;font-size:.78rem;line-height:1;text-align:center}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem .65rem}
+.tile{position:relative;text-decoration:none;padding-bottom:1.15rem}
+.tile img{width:100%;aspect-ratio:1/0.95;object-fit:cover;object-position:top;filter:grayscale(1) contrast(1.05);transition:filter .3s}
+.tile:hover img{filter:grayscale(.2) contrast(1.15) brightness(1.08)}
+.tile span{position:absolute;left:0;right:0;bottom:0;text-align:center;font-family:var(--display);font-weight:700;font-size:1.02rem;line-height:.88;text-shadow:0 2px 6px rgba(0,0,0,.9),0 0 2px #000}
+.tile span.sm{font-size:.86rem}
+
+/* ---------- concept ---------- */
+.brand{align-self:flex-end;font-family:var(--display);font-weight:700;font-size:1.15rem;text-decoration:none}
+.duo{display:grid;grid-template-columns:36fr 64fr;gap:.6rem}
+.duo img{width:100%;height:100%;object-fit:cover}
+.big{font-size:clamp(2.8rem,11vw,3.9rem)}
+.cta{align-self:flex-start;font-family:var(--display);font-weight:700;font-size:1rem;text-decoration:none;border:1px solid var(--rule);padding:.6rem 1.1rem}
+.cta:hover{background:var(--pill);border-color:var(--pill)}
+
+/* ---------- game ---------- */
+.game-head .display{font-size:clamp(2.3rem,9vw,3.1rem)}
+.sub{font-style:italic;color:var(--muted);margin-top:.5rem}
+.tab-sentinel{display:block;height:0;margin-bottom:-1.2rem}
+.tabs{position:sticky;top:0;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;margin:0 -1.5rem;padding:.6rem 1.5rem;background:var(--slab);box-shadow:0 8px 14px -10px rgba(0,0,0,.9)}
+.tabs button{font-family:var(--display);font-weight:700;font-size:.8rem;line-height:1.05;letter-spacing:.02em;color:var(--ink);background:transparent;border:1px solid rgba(233,230,225,.3);padding:.65rem .3rem;cursor:pointer;text-wrap:balance;transition:background .25s,border-color .25s}
+.tabs button:hover{border-color:rgba(233,230,225,.7)}
+.tabs button[aria-selected="true"]{background:var(--pill);border-color:var(--blood)}
+.tabs button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.panel{display:flex;flex-direction:column;gap:1.2rem;animation:rise .45s ease-out}
+.panel[hidden]{display:none}
+.next{align-self:flex-end;font-family:var(--display);font-weight:700;font-size:.92rem;color:var(--ink);background:transparent;border:1px solid var(--rule);padding:.6rem 1.1rem;cursor:pointer}
+.next:hover{background:var(--pill);border-color:var(--pill)}
+.next:focus-visible{outline:2px solid var(--blood);outline-offset:3px}
+.weeks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.25rem}
+.weeks>li{display:grid;grid-template-columns:3.4rem 1fr;gap:.9rem}
+.wk{font-family:var(--display);font-weight:700;color:var(--blood);font-size:1.25rem;line-height:1;border-right:1px solid rgba(233,230,225,.25);padding-right:.6rem;text-align:right}
+.wk small{display:block;color:var(--muted);font-family:var(--caps);font-size:.62rem;letter-spacing:.1em;margin-top:.35rem}
+.weeks h4{font-family:var(--caps);font-weight:700;font-size:1.02rem;margin:0 0 .45rem;letter-spacing:.02em}
+.dash{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+.dash li{padding-left:1rem;position:relative}
+.dash li::before{content:"›";position:absolute;left:0;color:var(--blood);font-weight:700}
+.clues{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin:.55rem 0 .35rem}
+.clues div{border:1px solid rgba(233,230,225,.3);padding:.5rem .3rem .45rem;text-align:center;display:flex;flex-direction:column;gap:.2rem}
+.clues b{font-family:var(--display);font-size:1.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.clues span{font-size:.72rem;line-height:1.1;color:var(--muted)}
+.clues div:last-child{border-color:var(--blood)}
+.clues div:last-child b{color:var(--blood)}
+.types{margin:0;display:flex;flex-direction:column;gap:.75rem}
+.types div{display:grid;grid-template-columns:7.2rem 1fr;gap:.8rem}
+.types dt{font-family:var(--caps);font-weight:700;font-size:.92rem;line-height:1.25}
+.types dd{margin:0}
+.types em{color:var(--muted)}
+.decoy dt{color:var(--blood)}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.role{border:1px solid rgba(233,230,225,.55);padding:.85rem;display:flex;flex-direction:column;gap:.55rem}
+.role.demon{border-color:var(--blood);background:linear-gradient(180deg,rgba(89,1,0,.35),transparent)}
+.role h4{font-family:var(--display);font-weight:700;font-size:1.25rem;margin:0}
+.role.demon h4{color:var(--blood)}
+.role p{font-size:.92rem;line-height:1.25}
+.role b{font-family:var(--caps);font-size:.72rem;letter-spacing:.1em;display:block;color:var(--muted);margin-bottom:.1rem}
+.ol{list-style:none;counter-reset:n;margin:0;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.ol li{counter-increment:n;display:grid;grid-template-columns:1.7rem 1fr}
+.ol li::before{content:counter(n) ".";font-family:var(--display);font-weight:700;color:var(--blood)}
+
+/* ---------- rules ---------- */
+.rules-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem}
+.rules-head .eyebrow{text-align:right;line-height:1.05;font-size:1.05rem}
+.roman{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.6rem}
+.roman li{display:grid;grid-template-columns:2.6rem 1fr;line-height:1.18}
+.roman li span{font-variant-numeric:tabular-nums}
+.roman li.new span{color:var(--blood);font-weight:700}
+
+/* ---------- points ---------- */
+.frame{border:3px solid var(--rule);padding:.85rem}
+.frame img{width:100%}
+.split{margin:0 -1.5rem;border:0;border-top:1px solid var(--rule)}
+.ledger{display:flex;flex-direction:column;gap:1.3rem;min-height:13.5rem}
+.ledger .panel{gap:0}
+.tabs.pts{position:static;grid-template-columns:repeat(3,1fr);margin:0;padding:0;background:none;box-shadow:none;gap:.45rem}
+.tabs.pts button{display:flex;flex-direction:column;align-items:center;gap:.3rem;font-size:.98rem;padding:.8rem .3rem .7rem}
+.tabs.pts button small{font-family:var(--body);font-weight:400;font-size:.72rem;letter-spacing:0;color:var(--muted)}
+.tabs.pts button[aria-selected="true"] small{color:#e8d6d4}
+#pt-penance[aria-selected="true"]{background:#3a0000;border-color:#e04848}
+.ledger h4{font-family:var(--body);font-weight:400;font-size:1.02rem;margin:0 0 .35rem}
+.ledger ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.18rem}
+.ledger li{display:flex;align-items:baseline;gap:.5rem}
+.ledger li::before{content:"-";flex:none}
+.ledger li .lbl{flex:1;display:flex;align-items:baseline;gap:.5rem}
+.ledger li .lbl::after{content:"";flex:1;border-bottom:1px dotted rgba(233,230,225,.22);transform:translateY(-.25em)}
+.ledger li b{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ledger .minus b{color:#e04848}
+.ledger .note{font-size:.84rem;color:var(--muted);margin-top:.45rem}
+
+/* ---------- join ---------- */
+.join{display:grid;grid-template-columns:auto 1fr;gap:1.3rem;align-items:start}
+.join .display{font-size:2.55rem;text-align:right;line-height:.92}
+.placeholder{border:1px dashed rgba(233,230,225,.45);padding:1rem;text-align:center;color:var(--muted);font-size:.9rem}
+
+/* ---------- caretakers ---------- */
+.care-img{filter:saturate(.7)}
+#caretakers .big{font-size:clamp(2.2rem,9.5vw,3.1rem)}
+.keepers{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.keeper{border:1px solid rgba(233,230,225,.3);padding:1rem .8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;text-align:center}
+.keeper i{width:3.6rem;height:3.6rem;border-radius:50%;border:1px solid var(--blood);display:grid;place-items:center;font-family:var(--display);font-style:normal;font-size:1.4rem;color:var(--blood);background:radial-gradient(circle,rgba(89,1,0,.45),transparent 70%)}
+.keeper b{font-family:var(--caps);font-size:1rem}
+.keeper span{font-size:.82rem;color:var(--muted)}
+
+/* ---------- forbidden ---------- */
+.forb-imgs{display:grid;grid-template-columns:63fr 37fr;gap:.5rem}
+.forb-imgs img{width:100%;height:100%;object-fit:cover}
+.az{display:flex;flex-wrap:wrap;gap:.3rem}
+.az button{font-family:var(--display);font-weight:700;font-size:.92rem;line-height:1;width:1.9rem;height:1.9rem;display:grid;place-items:center;background:transparent;color:var(--ink);border:1px solid rgba(233,230,225,.3);cursor:pointer;padding:0}
+.az button:hover{background:var(--pill);border-color:var(--pill)}
+.az button:focus-visible{outline:2px solid var(--blood);outline-offset:2px}
+.fc{columns:2;column-gap:1.4rem}
+.fc-group{break-inside:avoid;padding-bottom:1rem;scroll-margin-top:1rem}
+.fc-group h4{font-family:var(--display);font-weight:900;font-size:1.7rem;line-height:1;color:var(--blood);margin:0 0 .35rem;display:flex;align-items:center;gap:.5rem}
+.fc-group h4::after{content:"";flex:1;height:1px;background:rgba(176,28,28,.45)}
+.fc-group ul{list-style:none;margin:0;padding:0;font-size:.9rem;line-height:1.2;display:flex;flex-direction:column;gap:.22rem}
+.fc-group li{padding-left:.9rem;position:relative}
+.fc-group li::before{content:"›";position:absolute;left:0;color:var(--muted)}
+
+@media (max-width:440px){
+  body{font-size:15.5px}
+  .slab{padding:1.15rem}
+  .split{margin:0 -1.15rem}
+  .tabs{margin:0 -1.15rem;padding:.55rem 1.15rem;gap:.3rem}
+  .tabs button{font-size:.7rem;padding:.6rem .2rem}
+  .tabs.pts button{font-size:.82rem}
+  .nav{gap:.3rem .9rem;padding:.75rem .8rem}
+  .nav a{font-size:.9rem}
+  .home-top{grid-template-columns:1fr 6.6rem}
+  .home-grid{grid-template-columns:1fr}
+  .emblem{flex-direction:row;justify-content:center;gap:.8rem}
+  .emblem img{width:4.6rem}
+  .emblem span{font-size:.85rem;text-align:left}
+  .tile span{font-size:.82rem}
+  .tile span.sm{font-size:.7rem}
+  .join{grid-template-columns:1fr}
+  .join .display{text-align:left}
+  .roles,.keepers{grid-template-columns:1fr}
+  .types div{grid-template-columns:1fr;gap:.2rem}
+  .clues span{font-size:.66rem}
+  .fc{columns:1}
+}
+</style>
+</head>
+<body class="gated">
+<noscript><style>.gate{display:none}body.gated{overflow:auto}</style></noscript>
+
+<!-- ================= ENTRANCE GATE ================= -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-fill" aria-hidden="true"></div>
+  <div class="window" aria-hidden="true"><div class="door l"></div><div class="door r"></div></div>
+  <div class="fog" aria-hidden="true"></div>
+  <canvas id="petals" aria-hidden="true"></canvas>
+  <div class="gate-shade" aria-hidden="true"></div>
+  <div class="burst" aria-hidden="true"></div>
+  <div class="gate-text">
+    <p class="gate-eyebrow">18+ · NSFW ROLEPLAY AGENCY</p>
+    <p class="gate-title" id="gate-title"><span>BLA</span><span class="r">CK</span><br><span class="r">SIN</span><span>NERS</span></p>
+    <p class="gate-q">Are you ready to explore?</p>
+    <button class="gate-btn" id="enter" type="button">ENTER</button>
+    <p class="gate-hint">♪ SOUND ON FOR THE FULL EXPERIENCE</p>
+  </div>
+</div>
+
+<div class="bg" aria-hidden="true"></div>
+<div class="mist" aria-hidden="true"><i></i><i></i></div>
+<div class="mist front" aria-hidden="true"><i></i></div>
+
+<main id="top">
+
+<!-- ================= HOME ================= -->
+<section class="page on" id="home" aria-label="Black Sinners">
+  <div class="slab">
+    <div class="home-top">
+      <div>
+        <h1 class="display">BLA<span class="r">CK</span><br><span class="r">SIN</span>NERS</h1>
+        <p>Every soul is born carrying both light and darkness. The only difference is who dares to let their darkness speak; where beauty conceals danger, kindness masks deception, and every member carries a Devil worthy of admiration.</p>
+      </div>
+      <img class="angel" src="img/angel.jpg" alt="Engraving of a winged fallen angel">
+    </div>
+    <div class="home-grid">
+      <a class="emblem" href="#game"><img src="img/emblem.jpg" alt="Black Sinners emblem: angel and devil yin-yang"><span>WHO'S THE<br>DEMON?</span></a>
+      <nav class="tiles" aria-label="Sections">
+        <a class="tile" href="#concept"><img src="img/t-concept.jpg" alt=""><span>CONCEPT</span></a>
+        <a class="tile" href="#rules"><img src="img/t-rules.jpg" alt=""><span>RULES</span></a>
+        <a class="tile" href="#points"><img src="img/t-point.jpg" alt=""><span>SYSTEM<br>POINT</span></a>
+        <a class="tile" href="#join"><img src="img/t-join.jpg" alt=""><span>HOW TO<br>JOIN</span></a>
+        <a class="tile" href="#caretakers"><img src="img/t-care.jpg" alt=""><span>CARE<br>TAKERS</span></a>
+        <a class="tile" href="#forbidden"><img src="img/t-forbid.jpg" alt=""><span class="sm">FORBIDDEN<br>FC</span></a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- shared nav is cloned into each inner page by script -->
+<template id="navtpl">
+  <nav class="nav" aria-label="Main">
+    <a href="#home">HOME</a>
+    <a href="#concept">CONCEPT</a>
+    <a href="#rules">RULES</a>
+    <a href="#points">SYSTEM POINT</a>
+    <a href="#join">HOW TO JOIN</a>
+    <a href="#caretakers">CARETAKERS</a>
+    <a href="#forbidden">FORBIDDEN FC</a>
+  </nav>
+</template>
+
+<!-- ================= CONCEPT ================= -->
+<section class="page" id="concept" aria-label="Concept">
+  <div class="slab">
+    <a class="brand" href="#home">BLACK SINNERS</a>
+    <div class="duo">
+      <img src="img/concept-a.jpg" alt="Engraving of a winged devil embracing a woman">
+      <img src="img/concept-b.jpg" alt="Engraving of angels falling through clouds">
+    </div>
+    <h2 class="display big">CONC<span class="r it">E</span>PT</h2>
+    <div class="prose just">
+      <p><em>Beauty is dangerous. Kindness is persuasive. Darkness is irresistible.</em></p>
+      <p>At <u>Blacksinners</u>, angels and devils are not enemies—Angels embrace their Devils, and Devils remember their Light. They are reflections of the same soul. Beauty conceals danger. Kindness masks deception. Every smile hides a temptation, and every shadow longs to be understood.</p>
+      <p>But this month, one of us is not what they seem.</p>
+      <p>A <em>Demon</em> walks among the sinners, wearing the face of an ordinary member. It plays the same games, laughs at the same jokes, and leaves its traces in plain sight, waiting for someone sharp enough to read them.</p>
+      <p>Here, every member is a suspect.<br>The real competition begins when the masks fall away.</p>
+      <p>We do not reward innocence, nor do we seek the kindest. We seek those bold enough to embrace every side of themselves—The boldest liar. The sweetest manipulator. The most irresistible temptation. The sinner whose name lingers long after the lights go out. Because purity fades into memory.</p>
+      <p>Sin leaves a legacy. Every sinner leaves behind a story and legends are never remembered for being good; Every soul has two names. <em>Which one will history remember?</em></p>
+      <p>Welcome to <u>Blacksinners</u><br><em>An open limited-time NSFW</em> roleplay agency created for a <b>single month</b>, where a Demon hides among the sinners. Gather the clues, trust no smile, and name the Demon before the gates close once more.</p>
+    </div>
+    <a class="cta" href="#game">ENTER THE GAME ›</a>
+  </div>
+  <a class="foot" href="#home">BLACK SINNERS</a>
+</section>
+
+<!-- ================= THE GAME ================= -->
+<section class="page" id="game" aria-label="The Game">
+  <div class="slab">
+    <div class="fogged"><img class="banner" src="img/game.jpg" alt="Gothic cathedral with red stained-glass windows"></div>
+    <div class="game-head">
+      <p class="eyebrow">THE GAME · 4 WEEKS</p>
+      <h2 class="display" style="margin-top:.6rem">WH<span class="r it">O</span>'S THE <span class="r">DEMON</span>?</h2>
+      <p class="sub">Siapa demon-nya?</p>
+    </div>
+
+    <p class="just">A Demon is hiding among us, disguised as an ordinary member. Every member's task is to collect clues and work out who the Demon is before the event ends. The Demon's task is to survive without being found out.</p>
+
+    <span class="tab-sentinel" aria-hidden="true"></span>
+    <div class="tabs" role="tablist" aria-label="Game guide">
+      <button role="tab" id="gt-play" aria-controls="gp-play" aria-selected="true" tabindex="0">HOW TO PLAY</button>
+      <button role="tab" id="gt-clues" aria-controls="gp-clues" aria-selected="false" tabindex="-1">CLUES</button>
+      <button role="tab" id="gt-roles" aria-controls="gp-roles" aria-selected="false" tabindex="-1">ROLES</button>
+      <button role="tab" id="gt-rules" aria-controls="gp-rules" aria-selected="false" tabindex="-1">RULES</button>
+    </div>
+
+  <div class="panel" role="tabpanel" id="gp-play" aria-labelledby="gt-play">
+    <h3>The Flow</h3>
+    <ol class="weeks">
+      <li>
+        <div class="wk">I–II<small>WEEKS</small></div>
+        <div>
+          <h4>Introductions &amp; Clue Gathering</h4>
+          <ul class="dash">
+            <li>Member introductions: every participant introduces themselves and picks or receives a character (name, traits, signature quirk).</li>
+            <li>Weekly games earn clues. Clues at this stage are general.
+              <div class="clues" aria-label="Clues earned per weekly game">
+                <div><b>1</b><span>MOD</span></div>
+                <div><b>1</b><span>Vote #3</span></div>
+                <div><b>2</b><span>Vote #2</span></div>
+                <div><b>3</b><span>Vote #1</span></div>
+              </div>
+            </li>
+            <li>Participants keep their own record of every clue they receive.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="wk">III<small>WEEK</small></div>
+        <div>
+          <h4>The Demon Is Chosen</h4>
+          <ul class="dash">
+            <li>The admin secretly appoints the Demon by private message.</li>
+            <li>The Demon receives its role and special rules (see Roles).</li>
+            <li>The admin starts releasing more specific clues. Some are true, some may be decoys.</li>
+            <li>Members begin investigating and suspecting each other (keep it healthy!). Discussion is allowed, but never repeat the admin's original clue word for word.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="wk">IV<small>WEEK</small></div>
+        <div>
+          <h4>The Hunt &amp; The Closing</h4>
+          <ul class="dash">
+            <li><b>Investigation:</b> participants analyse every clue they hold. Discussion is closed.</li>
+            <li><b>Voting, Thursday:</b> each participant privately sends the admin their guess, who the Demon is and why.</li>
+            <li><b>Reveal, Saturday</b> or just before the agency closes: the admin unmasks the Demon, names the winners and closes the event.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+
+    <button class="next" type="button" data-go="clues">Next: Clues ›</button>
+  </div>
+
+  <div class="panel" role="tabpanel" id="gp-clues" aria-labelledby="gt-clues" hidden>
+    <h3>Finding the Demon</h3>
+    <p class="just">Like a game of undercover, the Demon never stands out. Clues arrive indirectly:</p>
+    <dl class="types">
+      <div><dt>Descriptive</dt><dd>General traits that could fit several people. <em>"The demon likes to be active at night."</em></dd></div>
+      <div><dt>Behavioural</dt><dd>Habits you can observe during the event. <em>"The demon often answers last."</em></dd></div>
+      <div><dt>Word / Code</dt><dd>The Demon receives a word slightly different from everyone else's, so its answers may look a little off.</dd></div>
+      <div class="decoy"><dt>Decoy</dt><dd>The admin slips in false clues to keep the game interesting.</dd></div>
+    </dl>
+    <p class="just">Members reach a conclusion by matching all the clues together, never by guessing at random.</p>
+
+    <button class="next" type="button" data-go="roles">Next: Roles ›</button>
+  </div>
+
+  <div class="panel" role="tabpanel" id="gp-roles" aria-labelledby="gt-roles" hidden>
+    <h3>Roles</h3>
+    <div class="roles">
+      <div class="role">
+        <h4>Member</h4>
+        <p><b>TASK</b>Complete missions, collect clues, discuss.</p>
+        <p><b>GOAL</b>Find the Demon.</p>
+      </div>
+      <div class="role demon">
+        <h4>Demon</h4>
+        <p><b>TASK</b>Blend in, follow the missions, blur the clues.</p>
+        <p><b>GOAL</b>Survive to the end without being caught.</p>
+      </div>
+    </div>
+
+    <button class="next" type="button" data-go="rules">Next: Rules ›</button>
+  </div>
+
+  <div class="panel" role="tabpanel" id="gp-rules" aria-labelledby="gt-rules" hidden>
+    <h3>Rules of Play</h3>
+    <ol class="ol">
+      <li>Every participant must complete the weekly missions before the deadline.</li>
+      <li>Do not leak the admin's private clues raw. You may discuss them in your own words.</li>
+      <li>The Demon may not confess before Week 4.</li>
+      <li>Each participant may send only one guess, during Week 4.</li>
+      <li>Respect every participant. Accusing is allowed; personal attacks are not.</li>
+      <li>The admin's decision is final.</li>
+    </ol>
+
+    <h3>Judgement</h3>
+    <ul class="dash">
+      <li>Members win by guessing the Demon correctly, with bonus points for the most logical reasoning.</li>
+      <li>The Demon wins if no one, or only a few, guess correctly.</li>
+      <li>Winners may receive a prize.</li>
+    </ul>
+    <button class="next" type="button" data-go="play">‹ Back to How to Play</button>
+  </div>
+  </div>
+  <a class="foot" href="#home">BLACK SINNERS</a>
+</section>
+
+<!-- ================= RULES ================= -->
+<section class="page" id="rules" aria-label="Rules">
+  <div class="slab">
+    <img src="img/rules.jpg" alt="Marble relief of tangled falling figures">
+    <div class="rules-head">
+      <h2 class="display big"><span class="r">R</span>ULES</h2>
+      <p class="eyebrow">OF BLACK<br>SINNERS</p>
+    </div>
+    <ol class="roman">
+      <li><span>I.</span>Open to all roleplayers (Gen, OC, AU, and MV) with a clear character profile.</li>
+      <li><span>II.</span>Used a fixed Display Name (DN). Free Username is allowed.</li>
+      <li><span>III.</span>One account is for one person only.</li>
+      <li><span>IV.</span>New accounts must have at least 15 followings (excluding agency members) and a minimum of 100 posts before applying.</li>
+      <li><span>V.</span>Face claims must be at least 20 years old (international age).</li>
+      <li><span>VI.</span>Multi-agency is allowed for up to two agencies, provided that Blacksinners is one of them and members are able to manage their activity responsibly.</li>
+      <li><span>VII.</span>Twins (duplicate face claims) are not allowed.</li>
+      <li><span>VIII.</span>Forbidden Face Claim are not accepted.</li>
+      <li><span>IX.</span>RT JFB, upfollow, bot activity, or any spam-related behavior will not be accepted.</li>
+      <li><span>X.</span>Do not post, repost, or like content unrelated to roleplay purposes on their roleplay account.</li>
+      <li><span>XI.</span>2D characters are not accepted, except for Alter-characters, which will be reviewed after the verification process.</li>
+      <li><span>XII.</span>Prohibited from participating in roleplay-related drama or conflicts.</li>
+      <li><span>XIII.</span>Follow all agency members, the base account, and the bank account.</li>
+      <li><span>XIV.</span>Violations of the rules will result in a maximum of two warning strikes (SP). A third violation will result in immediate removal from the agency.</li>
+      <li><span>XV.</span>Members who create trouble, make others uncomfortable, or disturb the community will be removed immediately without warning.</li>
+      <li class="new"><span>XVI.</span>Members who are inactive for 3 days without notice will be blacklisted.</li>
+      <li class="new"><span>XVII.</span>Leave for sickness or real-life activities is allowed for a maximum of 3 days. Anything longer results in a warning strike (SP).</li>
+    </ol>
+  </div>
+  <a class="foot" href="#home">BLACK SINNERS</a>
+</section>
+
+<!-- ================= SYSTEM POINT ================= -->
+<section class="page" id="points" aria-label="System Point">
+  <div class="slab">
+    <div class="frame"><img src="img/chess.jpg" alt="An angel and a devil playing chess on a rooftop"></div>
+    <h2 class="display big">SY<span class="r">S</span>TEM<br>P<span class="r it">O</span>INT</h2>
+    <hr class="split">
+    <div class="tabs pts" role="tablist" aria-label="Point categories">
+      <button role="tab" id="pt-virtues" aria-controls="pp-virtues" aria-selected="true" tabindex="0">VIRTUES<small>+ points</small></button>
+      <button role="tab" id="pt-sins" aria-controls="pp-sins" aria-selected="false" tabindex="-1">SINS<small>+ points</small></button>
+      <button role="tab" id="pt-penance" aria-controls="pp-penance" aria-selected="false" tabindex="-1">PENANCE<small>− points</small></button>
+    </div>
+    <div class="ledger">
+      <div class="panel" role="tabpanel" id="pp-virtues" aria-labelledby="pt-virtues">
+        <h4>Virtues activity:</h4>
+        <ul>
+          <li><span class="lbl">Event Participation</span><b>999</b></li>
+          <li><span class="lbl">MOD Games Participation</span><b>799</b></li>
+          <li><span class="lbl">Games Participation</span><b>399</b></li>
+          <li><span class="lbl">Victory Bonus</span><b>89–299</b></li>
+          <li><span class="lbl">Referral Member</span><b>99</b></li>
+        </ul>
+      </div>
+      <div class="panel" role="tabpanel" id="pp-sins" aria-labelledby="pt-sins" hidden>
+        <h4>Sins activity:</h4>
+        <ul>
+          <li><span class="lbl">Foreplaying with Member</span><b>199</b></li>
+          <li><span class="lbl">Foreplaying with Non Member</span><b>99</b></li>
+          <li><span class="lbl">Having sex with Member</span><b>349</b></li>
+          <li><span class="lbl">Having sex with Non Member</span><b>249</b></li>
+          <li><span class="lbl">Creating NSFW Content (3)</span><b>299</b></li>
+          <li><span class="lbl">Having sex in GDM (LIVE)</span><b>599</b></li>
+          <li><span class="lbl">Having Sex with Threesome</span><b>659</b></li>
+        </ul>
+      </div>
+      <div class="panel" role="tabpanel" id="pp-penance" aria-labelledby="pt-penance" hidden>
+        <h4>Penance (deductions):</h4>
+        <ul>
+          <li class="minus"><span class="lbl">TS (max 3 days)</span><b>−600 / day</b></li>
+          <li class="minus"><span class="lbl">Change Character (max 1×)</span><b>−1000</b></li>
+          <li class="minus"><span class="lbl">Hiatus (max 3 days)</span><b>−700 / day</b></li>
+          <li class="minus"><span class="lbl">Change Username</span><b>−300</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <a class="foot" href="#home">BLACK SINNERS</a>
+</section>
+
+<!-- ================= HOW TO JOIN ================= -->
+<section class="page" id="join" aria-label="How to Join">
+  <div class="slab">
+    <img src="img/hands.jpg" alt="Two shadowed hands reaching toward each other">
+    <div class="join">
+      <h2 class="display">H<span class="r it">O</span>W<br>TO<br><span class="r">J</span>OIN</h2>
+      <ul class="dash">
+        <li>Follow the Base and Bank accounts.</li>
+        <li>Repost and QRT the Grand Opening post. Tag five friends to invite them.</li>
+        <li>Post and tag five (5) friends to invite them to join.</li>
+        <li>Fill out the registration form correctly and make sure all information is accurate.</li>
+        <li>Submit a screenshot of your completed form using the format below:</li>
+      </ul>
+    </div>
+    <div class="placeholder">[ isi format pendaftaran di sini ]</div>
+  </div>
+  <a class="foot" href="#home">BLACK SINNERS</a>
+</section>
+
+<!-- ================= CARETAKERS ================= -->
+<section class="page" id="caretakers" aria-label="Caretakers">
+  <div class="slab">
+    <img class="banner care-img" src="img/care.jpg" alt="Hands in black lace holding a lit candle">
+    <h2 class="display big">CARE<span class="r">TAKERS</span></h2>
+    <p class="just">The keepers of the gate. Reach out to them for registration, leave notices and anything about the game.</p>
+    <div class="keepers">
+      <div class="keeper"><i>I</i><b>@username</b><span>Caretaker</span></div>
+      <div class="keeper"><i>II</i><b>@username</b><span>Caretaker</span></div>
+      <div class="keeper"><i>III</i><b>@username</b><span>Caretaker</span></div>
+      <div class="keeper"><i>IV</i><b>@username</b><span>Caretaker</span></div>
+    </div>
+    <div class="placeholder">[ isi nama &amp; username caretaker ]</div>
+  </div>
+  <a class="foot" href="#home">BLACK SINNERS</a>
+</section>
+
+<!-- ================= FORBIDDEN FC ================= -->
+<section class="page" id="forbidden" aria-label="Forbidden Face Claims">
+  <div class="slab">
+    <div class="forb-imgs">
+      <img src="img/forbid-a.jpg" alt="Bronze sculpture of writhing figures">
+      <img src="img/forbid-b.jpg" alt="Statue of a hooded figure">
+    </div>
+    <div>
+      <h2 class="display big">FORB<span class="r it">I</span>D</h2>
+      <p class="eyebrow" style="margin-top:.4rem">FACE CLAIMS · <span id="fc-count"></span> ENTRIES</p>
+    </div>
+    <p class="muted">Face claims on this list are not accepted (Rule VIII).</p>
+    <div class="az" id="az" aria-label="Jump to letter"></div>
+    <div class="fc" id="fc"></div>
+  </div>
+  <a class="foot" href="#home">BLACK SINNERS</a>
+</section>
+
+</main>
+
+<audio id="bgm" src="melancholia.mp3" loop preload="auto"></audio>
+<button class="music" id="music" type="button" aria-pressed="false">
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  <span id="music-label">PLAY MUSIC</span>
+</button>
+
+<script>
+// entrance gate + backsound. The ENTER click is the visitor's gesture that lets the
+// looping backsound start; the window doors then swing open onto the home menu.
+(() => {
+  const VOL = 0.5;
+  const bgm = document.getElementById('bgm'), btn = document.getElementById('music'), label = document.getElementById('music-label');
+  const gate = document.getElementById('gate'), enter = document.getElementById('enter');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const ui = on => { btn.classList.toggle('playing', on); btn.setAttribute('aria-pressed', on); label.textContent = on ? 'PAUSE MUSIC' : 'PLAY MUSIC'; };
+  bgm.addEventListener('play', () => ui(true));
+  bgm.addEventListener('pause', () => ui(false));
+  btn.addEventListener('click', () => { if (bgm.paused) { bgm.volume = VOL; bgm.play().catch(() => ui(false)); } else bgm.pause(); });
+
+  function fadeIn(){
+    bgm.volume = 0;
+    const t0 = performance.now();
+    const step = t => { const k = Math.max(0, Math.min(1, (t - t0) / 2500)); bgm.volume = VOL * k; if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+
+  // falling rose petals
+  const cv = document.getElementById('petals'), ctx = cv.getContext('2d');
+  let petals = [], running = !still, W = 0, H = 0;
+  function resize(){
+    const d = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  function petal(top){
+    return { x: Math.random() * W, y: top ? -20 - Math.random() * H * .3 : Math.random() * H, r: 5 + Math.random() * 7,
+      vy: .35 + Math.random() * .6, amp: 12 + Math.random() * 26, ph: Math.random() * 6.28, sp: .006 + Math.random() * .01,
+      rot: Math.random() * 6.28, vr: (Math.random() - .5) * .025, flip: Math.random() * 6.28, vf: .015 + Math.random() * .03,
+      a: .55 + Math.random() * .4, tone: Math.random() };
+  }
+  function draw(){
+    if (!running) return;
+    ctx.clearRect(0, 0, W, H);
+    for (const p of petals){
+      p.y += p.vy; p.ph += p.sp; p.rot += p.vr; p.flip += p.vf;
+      const x = p.x + Math.sin(p.ph) * p.amp;
+      if (p.y > H + 20) Object.assign(p, petal(true));
+      ctx.save(); ctx.translate(x, p.y); ctx.rotate(p.rot);
+      ctx.scale(Math.max(.18, Math.abs(Math.cos(p.flip))), 1);
+      const g = ctx.createRadialGradient(0, -p.r * .2, 0, 0, 0, p.r * 1.1);
+      g.addColorStop(0, `rgba(${200 + p.tone * 30 | 0},${34 + p.tone * 20 | 0},38,${p.a})`);
+      g.addColorStop(1, `rgba(${92 + p.tone * 20 | 0},6,10,${p.a})`);
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.moveTo(0, -p.r);
+      ctx.bezierCurveTo(p.r * .95, -p.r * .55, p.r * .75, p.r * .75, 0, p.r);
+      ctx.bezierCurveTo(-p.r * .75, p.r * .75, -p.r * .95, -p.r * .55, 0, -p.r);
+      ctx.fill(); ctx.restore();
+    }
+    requestAnimationFrame(draw);
+  }
+  resize();
+  addEventListener('resize', resize);
+  if (running){ petals = Array.from({length: Math.round(Math.min(34, Math.max(14, W / 34)))}, () => petal(false)); requestAnimationFrame(draw); }
+
+  enter.focus({preventScroll: true});
+  enter.addEventListener('click', () => {
+    bgm.currentTime = 0; fadeIn();
+    bgm.play().catch(() => ui(false));
+    if (location.hash && location.hash !== '#home') location.hash = 'home';
+    gate.classList.add('opening');
+    setTimeout(() => {
+      running = false; gate.remove(); document.body.classList.remove('gated');
+    }, still ? 700 : 2400);
+  }, {once: true});
+
+})();
+</script>
+
+<script>
+const FC = [
+"All Aktor, Aktris & Idol Thailand ( only berkarir di thailand )",
+"All member ATEEZ",
+"ALL MEMBER ATRP",
+"All member Enhypen",
+"All member G-IDDLE",
+"All member IVE",
+"All member Iz*one",
+"All member kiof",
+"ALL MEMBERS AESPA",
+"Allissa Shin",
+"aomareerat_",
+"AONRAWAN",
+"Artificial Intelligence ( AI )",
+"Aye Sarun",
+"Azhai",
+"Baek Siyoung",
+"Baek Sumin",
+"Baifern rrc",
+"Baifren Rinrucha",
+"Bamboo mangpor",
+"bbibonn / Bongg bongg",
+"Benyapa Jeenprasom",
+"Billie Elish",
+"Bimbeam",
+"bmangpor",
+"Bora Lim",
+"Brandon chai",
+"Bright",
+"Byun Jeongha",
+"Christian yu / ian /barom",
+"Dakyung Lee / dakymusic",
+"Emma Watson",
+"Fahyong Waree",
+"Feary Thanyarat",
+"Film Rachanun",
+"Han Hang",
+"Han SoHee",
+"Haneulina",
+"Harit Cheewagaroon / Sing Harit",
+"Hina Q W E R",
+"Holly lim",
+"Hyeji Kang",
+"IU / Lee Jieun",
+"Jamie Park",
+"Jan Ployshompoo / Janhae",
+"Jeon Boram",
+"Jey.pov / JINHYEONG",
+"Jimin AOA",
+"jme_anna",
+"jmeanne",
+"Ju Jinyi ( Kiku )",
+"Jung Haein",
+"Kang Hyeji",
+"Kang Yongjin / Dei8ght",
+"Kanya Bunloed",
+"Kanyarat Promchaiya",
+"Kanyarat Ruangrung / Piploy",
+"Kapook Phatchara",
+"Kim Hyuna",
+"Kim Hyunwoo",
+"Kim Ji Soo ( Actor )",
+"Kim Nehwa",
+"Kim Taeyeon",
+"Kim Woobin",
+"Kwon Eunbi",
+"Le Bich Tram",
+"Lee Chaeeun",
+"Lee Dongwook",
+"Lee Jaewook",
+"Local Chara Yang Kyung Won",
+"Love Pattranite / Loverrukk",
+"Luna f(x)",
+"MADISON BEER",
+"Malin Lim",
+"mvhd.rsyad",
+"nam.itx",
+"NAMI",
+"Naughty Rabbit",
+"Ngan Nguyen",
+"Nganguyeen",
+"Nikishush",
+"Nikishushu",
+"Ouyang Nana",
+"Pandora kaaki",
+"Preeyaphat Lorsuwansiri / Earn",
+"Prim Chanikarn",
+"Puiyi",
+"q.namii",
+"Ramida Jiranorraphat / Janeeyeh",
+"Saizneko2 (Sai-Chan)",
+"Saksit Wongsaroj / krawzap",
+"Seo Yeji",
+"Shirlizlee",
+"Shon Minho",
+"Song JongKi",
+"Soraya Upaiprom / Aumamii26",
+"STRAY KIDS BANG CHAN",
+"Sung Ziyoung",
+"tmt.264 / chuyneee",
+"Ton Tawan",
+"trtxzx",
+"Vvyan Le",
+"Vvyan lee",
+"Wanwimol Jaenasavamethee / Junee",
+"Woohyeon",
+"Xiu Akay",
+"Yin Anan Wong",
+"Yiu (rhab)",
+"Yiye Isabella",
+"YOON BOMI APINK",
+"yuna127 / Yuna Karimova",
+"Zennyrt",
+"Zzyuridayo"
+];
+// forbidden FC: sort A–Z, group by first letter, build the letter index
+const fcBox = document.getElementById('fc'), az = document.getElementById('az');
+const groups = {};
+[...FC].sort((a,b) => a.localeCompare(b, 'en', {sensitivity:'base'})).forEach(n => {
+  const L = n.trim().charAt(0).toUpperCase();
+  (groups[L] = groups[L] || []).push(n);
+});
+Object.keys(groups).sort().forEach(L => {
+  const g = document.createElement('div'); g.className = 'fc-group'; g.id = 'fc-' + L;
+  const h = document.createElement('h4'); h.textContent = L; g.appendChild(h);
+  const ul = document.createElement('ul');
+  groups[L].forEach(n => { const li = document.createElement('li'); li.textContent = n; ul.appendChild(li); });
+  g.appendChild(ul); fcBox.appendChild(g);
+  const btn = document.createElement('button'); btn.type = 'button'; btn.textContent = L;
+  btn.setAttribute('aria-label', 'Jump to ' + L);
+  btn.addEventListener('click', () => g.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'}));
+  az.appendChild(btn);
+});
+document.getElementById('fc-count').textContent = FC.length;
+
+// put the shared nav pill at the top of every inner page
+const tpl = document.getElementById('navtpl');
+document.querySelectorAll('.page:not(#home)').forEach(p => p.prepend(tpl.content.cloneNode(true)));
+
+const pages = [...document.querySelectorAll('.page')];
+const ids = pages.map(p => p.id);
+function show(){
+  const id = ids.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'home';
+  pages.forEach(p => p.classList.toggle('on', p.id === id));
+  document.body.dataset.page = id;
+  document.querySelectorAll('.nav a').forEach(a => {
+    if (a.getAttribute('href') === '#' + id) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+  });
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', show);
+
+// tab groups (game guide + system point); state stays in the page, not the hash
+const sentinel = document.querySelector('.tab-sentinel');
+function selectTab(tab, focus){
+  const list = tab.closest('[role="tablist"]'), group = [...list.querySelectorAll('[role="tab"]')];
+  group.forEach(t => {
+    const on = t === tab;
+    t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+  });
+  if (focus) tab.focus();
+  if (list.closest('#game')) {
+    const top = sentinel.getBoundingClientRect().top;
+    if (top < 0) window.scrollTo({top: top + window.scrollY, behavior: 'auto'});
+  }
+}
+document.querySelectorAll('[role="tablist"]').forEach(list => {
+  const group = [...list.querySelectorAll('[role="tab"]')];
+  group.forEach((t, i) => {
+    t.addEventListener('click', () => selectTab(t));
+    t.addEventListener('keydown', e => {
+      const k = {ArrowRight: 1, ArrowLeft: -1}[e.key];
+      if (k) { e.preventDefault(); selectTab(group[(i + k + group.length) % group.length], true); }
+      if (e.key === 'Home') { e.preventDefault(); selectTab(group[0], true); }
+      if (e.key === 'End') { e.preventDefault(); selectTab(group[group.length - 1], true); }
+    });
+  });
+});
+document.querySelectorAll('.next[data-go]').forEach(b => b.addEventListener('click', () => selectTab(document.getElementById('gt-' + b.dataset.go), true)));
+show();
+</script>
+</body>
+</html>
