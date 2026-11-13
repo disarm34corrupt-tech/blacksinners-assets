@@ -249,6 +249,7 @@ h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233
 .keepers{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
 .keeper{border:1px solid rgba(233,230,225,.3);padding:1rem .8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;text-align:center}
 .keeper i{width:3.6rem;height:3.6rem;border-radius:50%;border:1px solid var(--blood);display:grid;place-items:center;font-family:var(--display);font-style:normal;font-size:1.4rem;color:var(--blood);background:radial-gradient(circle,rgba(89,1,0,.45),transparent 70%)}
+.keeper:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - .35rem)}
 .keeper b{font-family:var(--caps);font-size:1rem}
 .keeper span{font-size:.82rem;color:var(--muted)}
 
@@ -286,6 +287,7 @@ h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233
   .join{grid-template-columns:1fr}
   .join .display{text-align:left}
   .roles,.keepers{grid-template-columns:1fr}
+  .keeper:last-child:nth-child(odd){width:auto;justify-self:stretch}
   .types div{grid-template-columns:1fr;gap:.2rem}
   .clues span{font-size:.66rem}
   .fc{columns:1}
@@ -522,13 +524,11 @@ h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233
       <li><span>VIII.</span>Forbidden Face Claim are not accepted.</li>
       <li><span>IX.</span>RT JFB, upfollow, bot activity, or any spam-related behavior will not be accepted.</li>
       <li><span>X.</span>Do not post, repost, or like content unrelated to roleplay purposes on their roleplay account.</li>
-      <li><span>XI.</span>2D characters are not accepted, except for Alter-characters, which will be reviewed after the verification process.</li>
-      <li><span>XII.</span>Prohibited from participating in roleplay-related drama or conflicts.</li>
-      <li><span>XIII.</span>Follow all agency members, the base account, and the bank account.</li>
-      <li><span>XIV.</span>Violations of the rules will result in a maximum of two warning strikes (SP). A third violation will result in immediate removal from the agency.</li>
-      <li><span>XV.</span>Members who create trouble, make others uncomfortable, or disturb the community will be removed immediately without warning.</li>
-      <li class="new"><span>XVI.</span>Members who are inactive for 3 days without notice will be blacklisted.</li>
-      <li class="new"><span>XVII.</span>Leave for sickness or real-life activities is allowed for a maximum of 3 days. Anything longer results in a warning strike (SP).</li>
+      <li><span>XI.</span>Follow all agency members, the base account, and the bank account.</li>
+      <li><span>XII.</span>Violations of the rules will result in a maximum of two warning strikes (SP). A third violation will result in immediate removal from the agency.</li>
+      <li><span>XIII.</span>Members who create trouble, make others uncomfortable, or disturb the community will be removed immediately without warning.</li>
+      <li class="new"><span>XIV.</span>Members who are inactive for 3 days without notice will be blacklisted.</li>
+      <li class="new"><span>XV.</span>Leave for sickness or real-life activities is allowed for a maximum of 3 days. Anything longer results in a warning strike (SP).</li>
     </ol>
   </div>
   <a class="foot" href="#home">BLACK SINNERS</a>
@@ -608,12 +608,10 @@ h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233
     <h2 class="display big">CARE<span class="r">TAKERS</span></h2>
     <p class="just">The keepers of the gate. Reach out to them for registration, leave notices and anything about the game.</p>
     <div class="keepers">
-      <div class="keeper"><i>I</i><b>@username</b><span>Caretaker</span></div>
-      <div class="keeper"><i>II</i><b>@username</b><span>Caretaker</span></div>
-      <div class="keeper"><i>III</i><b>@username</b><span>Caretaker</span></div>
-      <div class="keeper"><i>IV</i><b>@username</b><span>Caretaker</span></div>
+      <div class="keeper"><i>I</i><b>Celine Amoura</b><span>(Yeji TWICE)</span><span>Caretaker</span></div>
+      <div class="keeper"><i>II</i><b>Ryuki Kenzi</b><span>(Hyunjin SKZ)</span><span>Caretaker</span></div>
+      <div class="keeper"><i>III</i><b>Sorea Estelle</b><span>(Joy Red Velvet)</span><span>Caretaker</span></div>
     </div>
-    <div class="placeholder">[ isi nama &amp; username caretaker ]</div>
   </div>
   <a class="foot" href="#home">BLACK SINNERS</a>
 </section>
