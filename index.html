@@ -249,6 +249,13 @@ h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233
 .keepers{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
 .keeper{border:1px solid rgba(233,230,225,.3);padding:1rem .8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;text-align:center}
 .keeper img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center top;border:1px solid rgba(176,28,28,.65);display:block}
+/* Soft gothic candlelight on caretaker portraits */
+.keeper img{filter:brightness(.7) saturate(.82);animation:keeper-candle 5.8s ease-in-out infinite;transition:filter .45s ease,box-shadow .45s ease}
+.keeper:nth-child(2) img{animation-delay:-1.8s}
+.keeper:nth-child(3) img{animation-delay:-3.6s}
+@keyframes keeper-candle{0%,100%{filter:brightness(.68) saturate(.8);box-shadow:0 0 5px rgba(176,28,28,.12)}32%{filter:brightness(.96) saturate(1);box-shadow:0 0 20px rgba(176,28,28,.3)}56%{filter:brightness(.78) saturate(.9);box-shadow:0 0 9px rgba(176,28,28,.18)}76%{filter:brightness(1.04) saturate(1.08);box-shadow:0 0 24px rgba(176,28,28,.34)}}
+.keeper:hover img,.keeper:focus-within img{animation-play-state:paused;filter:brightness(1.14) saturate(1.08);box-shadow:0 0 24px rgba(176,28,28,.5)}
+@media(prefers-reduced-motion:reduce){.keeper img{animation:none;filter:brightness(.95) saturate(.9)}}
 .keeper:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - .35rem)}
 .keeper b{font-family:var(--caps);font-size:1rem}
 .keeper span{font-size:.82rem;color:var(--muted)}
@@ -596,7 +603,7 @@ h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233
         <li>Submit a screenshot of your completed form using the format below:</li>
       </ul>
     </div>
-    <div class="placeholder">[ isi format pendaftaran di sini ]</div>
+    <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSeCpd-ZHxOoZskpIP1y3VBi74wUszqNgvE2bw2i29LJADO4_A/viewform" target="_blank" rel="noopener noreferrer">FILL REGISTRATION FORM ↗</a>
   </div>
   <a class="foot" href="#home">BLACK SINNERS</a>
 </section>
